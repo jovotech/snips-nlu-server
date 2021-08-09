@@ -28,7 +28,7 @@ def check_request_type():
     if request.method == 'POST' and not request.is_json:
         raise WrongFormatException('Request body must be JSON.')
 
-@app.route('/train', methods=['POST'])
+@app.route('/engine/train', methods=['POST'])
 async def create_snips_engine():
     ''' Creates, trains and persists a Snips NLU Engine '''
     engine: SnipsNLUEngine = SnipsNLUEngine()
@@ -51,7 +51,7 @@ async def create_snips_engine():
     engine.persist(engine_path)
     return { 'status': 'success' }, 201
 
-@app.route('/parse', methods=['POST'])
+@app.route('/engine/parse', methods=['POST'])
 async def parse_message():
     bot_id: str = get_query_parameter('bot_id')
 
