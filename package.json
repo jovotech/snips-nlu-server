@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "jovo-model-rasa": "^3.0.0"
+    "jovo-model-snips": "^1.0.0"
   }
 }
