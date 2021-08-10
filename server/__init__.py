@@ -49,18 +49,19 @@ async def create_snips_engine():
         shutil.rmtree(engine_path)
 
     engine.persist(engine_path)
-    return { 'status': 'success' }, 201
+    return '', 201
 
 @app.route('/engine/parse', methods=['POST'])
 async def parse_message():
+    ''' Loads a Snips NLU Engine and parses a message through it '''
     bot_id: str = get_query_parameter('bot_id')
 
     engine_path: str = path.join('.engine', bot_id)
     engine: SnipsNLUEngine = SnipsNLUEngine.from_path(engine_path)
     request_json: Any = request.get_json()
 
-    result = engine.parse(request_json['message'])
-    return { 'status': 'success', 'result': result }, 200
+    result = engine.parse(request_json['text'])
+    return result, 200
 
 @app.errorhandler(HTTPException)
 def handle_exception(exception):
@@ -69,7 +70,6 @@ def handle_exception(exception):
         'code': exception.code,
         'description': exception.description,
         'name': type(exception).__name__,
-        'status': 'error',
     })
     response.content_type = 'application/json'
     return response, exception.code
