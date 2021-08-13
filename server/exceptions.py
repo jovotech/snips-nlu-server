@@ -5,3 +5,6 @@ class WrongFormatException(HTTPException):
 
 class MissingParameterException(HTTPException):
     code = 400
+
+class JovoModelSnipsException(HTTPException):
+    code = 500
