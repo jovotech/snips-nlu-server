@@ -77,13 +77,13 @@ def handle_exception(exception):
 def train_and_persist_engine(engine_path_portion: str = 'engine'):
     engine: SnipsNLUEngine = SnipsNLUEngine()
     locale: str = get_query_parameter('locale')
-    bot_id: str = get_query_parameter('engine_id')
+    engine_id: str = get_query_parameter('engine_id')
 
     # TODO: Catch errors?
     snipsModel = node_env.call('convert', locale, request.json)
     engine.fit(snipsModel)
 
-    engine_path: str = path.join('.engine', bot_id, engine_path_portion)
+    engine_path: str = path.join('.engine', engine_id, locale, engine_path_portion)
 
     # Create directory if it doesn't exist yet
     engine_directory: str = path.dirname(engine_path)
