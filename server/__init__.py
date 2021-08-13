@@ -49,11 +49,12 @@ async def parse_message():
     ''' Loads a Snips NLU Engine and parses a message through it '''
     engine_id: str = get_query_parameter('engine_id')
     session_id: str = get_query_parameter('session_id')
+    locale: str = get_query_parameter('locale')
 
-    engine_directory: str = path.join('.engine', engine_id)
+    engine_directory: str = path.join('.engine', engine_id, locale)
     # Parse through every engine trained on dynamic entities.
     # If a result is found, return it, otherwise fall back to the generic engine.
-    dynamic_engine_path: str = path.join('.engine', engine_id, 'dynamic_entities', session_id)
+    dynamic_engine_path: str = path.join(engine_directory, 'dynamic_entities', session_id)
     if path.exists(dynamic_engine_path):
         for directory in listdir(dynamic_engine_path):
             result = parse_from_engine(path.join(dynamic_engine_path, directory))
