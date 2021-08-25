@@ -126,7 +126,7 @@ def get_query_parameter(key: str) -> str:
 
     return parameter
 
-def fetch_model(locale: str): 
+def fetch_model(locale: str):
     models_url: Union[str, None] = os.environ.get('MODEL_LOCATION')
     if not models_url:
         raise MissingModelException('Missing model location url. Provide it by setting the environment variable "MODEL_LOCATION"')
@@ -135,7 +135,7 @@ def fetch_model(locale: str):
         res = requests.get(url)
         if res.status_code != 200:
             raise Exception()
-    except Exception: 
+    except Exception:
         raise MissingModelException('Couldn\'t get model from {0}'.format(url))
 
     return res.json()
