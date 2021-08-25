@@ -8,3 +8,6 @@ class MissingParameterException(HTTPException):
 
 class JovoModelSnipsException(HTTPException):
     code = 500
+
+class MissingModelException(HTTPException):
+    code = 400

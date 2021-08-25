@@ -86,14 +86,18 @@ def handle_exception(exception):
     return response, exception.code
 
 def train_and_persist_engine(engine_path_portion: str = 'engine'):
+    ''' Trains and persists an engine '''
     engine: SnipsNLUEngine = SnipsNLUEngine()
     locale: str = get_query_parameter('locale')
     engine_id: str = get_query_parameter('engine_id')
 
     # TODO: Catch errors?
-    snipsModel = node_env.call('convert', locale, request.json)
+    model = request.json or fetch_model(locale)
+    try:
+        snipsModel = node_env.call('convert', locale, model)
+    except Exception as e:
+        raise JovoModelSnipsException(e.args[0])
     engine.fit(snipsModel)
-
     engine_path: str = path.join('.engine', engine_id, locale, engine_path_portion)
 
     # Create directory if it doesn't exist yet
@@ -121,3 +125,17 @@ def get_query_parameter(key: str) -> str:
         raise MissingParameterException('Missing parameter key: {key}'.format(key=key))
 
     return parameter
+
+def fetch_model(locale: str): 
+    models_url: Union[str, None] = os.environ.get('MODEL_LOCATION')
+    if not models_url:
+        raise MissingModelException('Missing model location url. Provide it by setting the environment variable "MODEL_LOCATION"')
+    url: str = urljoin(models_url, '{0}.json'.format(locale))
+    try:
+        res = requests.get(url)
+        if res.status_code != 200:
+            raise Exception()
+    except Exception: 
+        raise MissingModelException('Couldn\'t get model from {0}'.format(url))
+
+    return res.json()
