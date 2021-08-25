@@ -1,19 +1,29 @@
 import json
+from os import listdir, makedirs, path
+import os
 import shutil
-from os import makedirs, path, listdir
-from typing import Any
-from flask.helpers import make_response
-from snips_nlu import SnipsNLUEngine
-from flask import Flask, request
+from typing import Any, Union
+from urllib.parse import urljoin
+
 from execjs import get
+from flask import Flask, request
+from flask.helpers import make_response
+import requests
+from snips_nlu import SnipsNLUEngine
 from werkzeug.exceptions import HTTPException
-from server.exceptions import MissingParameterException, WrongFormatException
+
+from server.exceptions import (
+    JovoModelSnipsException,
+    MissingModelException,
+    MissingParameterException,
+    WrongFormatException,
+)
 
 app = Flask(__name__)
 node = get('Node')
 
 node_env = node.compile('''
-    const { JovoModelSnips } = require('jovo-model-snips');
+    const { JovoModelSnips } = require('@jovotech/model-snips');
     
     function convert(locale, model) {
       const snipsModelFiles = JovoModelSnips.fromJovoModel(model, locale);
