@@ -97,6 +97,7 @@ def train_and_persist_engine(engine_path_portion: str = 'engine'):
         snipsModel = node_env.call('convert', locale, model)
     except Exception as e:
         raise JovoModelSnipsException(e.args[0])
+    # TODO: Raise MissingResourceException 
     engine.fit(snipsModel)
     engine_path: str = path.join('.engine', engine_id, locale, engine_path_portion)
 
@@ -139,3 +140,8 @@ def fetch_model(locale: str):
         raise MissingModelException('Couldn\'t get model from {0}'.format(url))
 
     return res.json()
+
+
+if __name__ == '__init__':
+    app.debug = True
+    app.run()

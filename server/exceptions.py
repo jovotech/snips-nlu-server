@@ -11,3 +11,6 @@ class JovoModelSnipsException(HTTPException):
 
 class MissingModelException(HTTPException):
     code = 400
+
+class MissingResourceException(HTTPException):
+    code = 500
