@@ -15,9 +15,15 @@ $ . venv/bin/activate
 ```
 Depending on your shell you might need to run another script, read more [here](https://docs.python.org/3/tutorial/venv.html)
 
-Install dependencies:
+### Install dependencies:
+Install python dependencies:
 ```sh
 $ pip install -r requirements.txt
+```
+
+Since the server uses `@jovotech/model-snips` for conversion, you need to install node dependencies as well:
+```sh
+$ npm i
 ```
 
 ## Snips NLU
@@ -44,6 +50,7 @@ $ export FLASK_ENV=development
 # Windows
 $ set FLASK_ENV=development
 ```
+
 # Run your server
 ```sh
 $ python -m flask run

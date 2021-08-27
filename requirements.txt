@@ -27,8 +27,6 @@ setuptools-rust==0.12.1
 six==1.16.0
 sklearn-crfsuite==0.3.6
 snips-nlu==0.20.2
-snips-nlu-de==0.2.3
-snips-nlu-en==0.2.3
 snips-nlu-parsers==0.4.3
 snips-nlu-utils==0.9.1
 tabulate==0.8.9
