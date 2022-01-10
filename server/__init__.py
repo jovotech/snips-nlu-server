@@ -91,13 +91,12 @@ def train_and_persist_engine(engine_path_portion: str = 'engine'):
     locale: str = get_query_parameter('locale')
     engine_id: str = get_query_parameter('engine_id')
 
-    # TODO: Catch errors?
     model = request.json or fetch_model(locale)
     try:
         snipsModel = node_env.call('convert', locale, model)
     except Exception as e:
         raise JovoModelSnipsException(e.args[0])
-    # TODO: Raise MissingResourceException 
+
     engine.fit(snipsModel)
     engine_path: str = path.join('.engine', engine_id, locale, engine_path_portion)
 
