@@ -1,14 +1,23 @@
+# Snips NLU Server
+
+This server allows you to run [Snips NLU](https://github.com/snipsco/snips-nlu), an open source [natural language understanding (NLU)](https://www.jovo.tech/docs/nlu) engine, on your own premises.
+
+Using this server is recommended if you want to build [Jovo](https://www.jovo.tech) apps using the [Snips NLU integration](https://www.jovo.tech/marketplace/nlu-snips). It even features the ability to dynamically train the language model called [dynamic entities](#dynamic-entities).
+
 ## Setup
 
-To be able to interact with the Snips NLU engine, the server is implemented in Python. If you haven't already installed Python on your system, you can follow [this guide](https://realpython.com/installing-python/). There have been some issues with using Python > 3.9, so stick to either Python 2.7 or Python >= 3.5 <= 3.9.
+To be able to interact with the Snips NLU engine, the server is implemented in Python. If you haven't already installed Python on your system, you can follow [this guide](https://realpython.com/installing-python/). There have been some issues with using Python > 3.9, so we recommend sticking to either Python 2.7 or Python >= 3.5 <= 3.9.
+
 After you've successfully configured your local environment, you can go ahead and download this repository:
 
 ```sh
 # HTTPS
 $ git clone https://github.com/jovotech/snips-nlu-server.git
-# SSH
+
+# Alternative: SSH
 $ git clone git@github.com:jovotech/snips-nlu-server.git
-# GitHub CLI
+
+# Alternative: GitHub CLI
 $ gh repo clone jovotech/snips-nlu-server
 ```
 
@@ -26,13 +35,13 @@ $ source venv/bin/activate
 
 Depending on your shell you might need to run another script, read more [here](https://docs.python.org/3/tutorial/venv.html)
 
-To deactivate/exit the virtual environment, run
+To deactivate/exit the virtual environment, run:
 
 ```sh
 $ deactivate
 ```
 
-### Install dependencies:
+### Install Dependencies
 
 To be able to use such libraries as `snips-nlu` and `flask`, you'll need to install all required dependencies specified in `requirements.txt`:
 
@@ -42,27 +51,29 @@ $ pip install -r requirements.txt
 
 If you get an error stating that the Rust compiler can't be found, try installing it using [this guide](https://rustup.rs/).
 
-Since the server uses `@jovotech/model-snips` for conversion, you need to install node dependencies as well:
+Since the server uses `@jovotech/model-snips` for conversion, you need to install Node dependencies as well:
 
 ```sh
-$ npm i
+$ npm install
 ```
 
 Additionally, Snips NLU requires you to download your language resources manually:
 
 ```sh
 $ python -m snips-nlu download <language>
+
 # or natively
 $ snips-nlu download <language>
 ```
 
-### Run your server
+### Run your Server
 
 Set environment variables so Flask can find your server file:
 
 ```sh
 # Linux/MacOS
 $ export FLASK_APP=server/__init__.py
+
 # Windows
 $ set FLASK_APP=server/__init__.py
 ```
@@ -72,6 +83,7 @@ If you want to restart the server on changes automatically, add this to your env
 ```sh
 # Linux/MacOS
 $ export FLASK_ENV=development
+
 # Windows
 $ set FLASK_ENV=development
 ```
@@ -80,18 +92,19 @@ Start the server using the following command:
 
 ```sh
 $ python -m flask run
+
 # or natively
 $ flask run
 ```
 
-## Training an engine
+## Training an Engine
 
 The Snips NLU server provides an endpoint `/engine/train` that lets you train and persist a Snips NLU engine from a [Jovo Language Model](https://www.jovo.tech/docs/models). It accepts the following query parameters:
 
 - `locale`: The locale of the language model
 - `engine_id`: The ID which is used to persist the NLU engine
 
-You can choose between providing the model directly in the request body as part of the `POST` request, or set an environment variable `MODEL_LOCATION`, which holds the endpoint to the containing directory of your model (e.g. S3). Note that this endpoint is joined with the locale provided in the request query, so the final model endpoint will look something like this: `${MODEL_LOCATION}/${locale}.json`. If you use
+You can choose between providing the model directly in the request body as part of the `POST` request, or set an environment variable `MODEL_LOCATION`, which holds the endpoint to the containing directory of your model (e.g. S3). Note that this endpoint is joined with the locale provided in the request query, so the final model endpoint will look something like this: `${MODEL_LOCATION}/${locale}.json`.
 
 The language model is then converted to a native Snips NLU dataset format, which can be further used to train the engine you'll later use to parse messages through. Using the provided query parameters `engine_id` and `locale`, this engine is then persisted locally to be reloaded when needed. This approach allows you to load your engine on demand, rather than to keep it running in a dedicated server instance. It also enables you to make use of [Dynamic Entities](https://www.jovo.tech/marketplace/nlu-snips#dynamic-entities), which will be explained below.
 
@@ -110,7 +123,7 @@ Apart from `engine_id`, which will be taken from [configuration](https://www.jov
 
 Note that if you provide your own model, it only needs to contain the dynamic entity, along with every updated intent containing the entity.
 
-## Parsing a message
+## Parsing a Message
 
 The main endpoint of the server is `/engine/parse`, which will be called by the [Snips NLU integration](https://www.jovo.tech/marketplace/nlu-snips) to parse a message and return the resolved values. It also includes parsing messages with dynamic entities. It accepts the following query parameters:
 
