@@ -4,6 +4,16 @@ This server allows you to run [Snips NLU](https://github.com/snipsco/snips-nlu),
 
 Using this server is recommended if you want to build [Jovo](https://www.jovo.tech) apps using the [Snips NLU integration](https://www.jovo.tech/marketplace/nlu-snips). It even features the ability to dynamically train the language model called [dynamic entities](#dynamic-entities).
 
+## Setup with Docker
+
+The easiest way to run the server is using Docker. You can build the image yourself and run it on port 5000:
+```sh
+docker build -t snips-nlu-server .
+docker run -p 5000:5000 snips-nlu-server
+```
+See in [Train an engine](https://github.com/jovotech/snips-nlu-server#training-an-engine how to train an engine.
+
+
 ## Setup
 
 To be able to interact with the Snips NLU engine, the server is implemented in Python. If you haven't already installed Python on your system, you can follow [this guide](https://realpython.com/installing-python/). There have been some issues with using Python > 3.9, so we recommend sticking to either Python 2.7 or Python >= 3.5 <= 3.9.
