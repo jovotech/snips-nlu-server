@@ -4,38 +4,45 @@ This server allows you to run [Snips NLU](https://github.com/snipsco/snips-nlu),
 
 Using this server is recommended if you want to build [Jovo](https://www.jovo.tech) apps using the [Snips NLU integration](https://www.jovo.tech/marketplace/nlu-snips). It even features the ability to dynamically train the language model called [dynamic entities](#dynamic-entities).
 
-## Setup with Docker
-
-The easiest way to run the server is using Docker. You can build the image yourself and run it on port 5000:
-```sh
-docker build -t snips-nlu-server .
-docker run -p 5000:5000 snips-nlu-server
-```
-See in [Train an engine](https://github.com/jovotech/snips-nlu-server#training-an-engine how to train an engine.
+Learn more below:
+- [Setup](#setup)
+- [Training an Engine](#training-an-engine)
+- [Dynamic Entities](#dynamic-entities)
+- [Parsing a Message](#parsing-a-message)
 
 
 ## Setup
 
-To be able to interact with the Snips NLU engine, the server is implemented in Python. If you haven't already installed Python on your system, you can follow [this guide](https://realpython.com/installing-python/). There have been some issues with using Python > 3.9, so we recommend sticking to either Python 2.7 or Python >= 3.5 <= 3.9.
-
-After you've successfully configured your local environment, you can go ahead and download this repository:
+First, clone this repository:
 
 ```sh
-# HTTPS
 $ git clone https://github.com/jovotech/snips-nlu-server.git
 
-# Alternative: SSH
-$ git clone git@github.com:jovotech/snips-nlu-server.git
-
-# Alternative: GitHub CLI
-$ gh repo clone jovotech/snips-nlu-server
+$ cd snips-nlu-server
 ```
+
+There are two options to run the server:
+- [Using Docker](#using-docker) (recommended)
+- [Manual Setup](#manual-setup)
+
+### Using Docker
+
+The easiest way to run the server is using Docker.
+
+You can build the image yourself and run it on port 5000:
+
+```sh
+docker build -t snips-nlu-server .
+docker run -p 5000:5000 snips-nlu-server
+```
+
+### Manual Setup
+
+To be able to interact with the Snips NLU engine, the server is implemented in Python. If you haven't already installed Python on your system, you can follow [this guide](https://realpython.com/installing-python/). There have been some issues with using Python > 3.9, so we recommend sticking to either Python 2.7 or Python >= 3.5 <= 3.9.
 
 To manage dependencies on a project-scoped level, you need to create a [virtual environment](https://docs.python.org/3/tutorial/venv.html) and activate it:
 
 ```sh
-$ cd snips-nlu-server
-
 # Create a virtual environment
 $ python -m venv venv/
 
@@ -51,7 +58,7 @@ To deactivate/exit the virtual environment, run:
 $ deactivate
 ```
 
-### Install Dependencies
+#### Install Dependencies
 
 To be able to use such libraries as `snips-nlu` and `flask`, you'll need to install all required dependencies specified in `requirements.txt`:
 
@@ -76,7 +83,7 @@ $ python -m snips-nlu download <language>
 $ snips-nlu download <language>
 ```
 
-### Run your Server
+#### Run your Server
 
 Set environment variables so Flask can find your server file:
 
