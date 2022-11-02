@@ -31,6 +31,6 @@ RUN snips-nlu download en
 ENV FLASK_APP=/app/server/__init__.py
 ENV FLASK_ENV=development
 
-EXPOSE 5000
+EXPOSE 5001
 
-CMD [ "python", "-m" , "flask", "run", "--host=0.0.0.0"]
+CMD [ "python", "-m" , "flask", "run", "--host=0.0.0.0", "--port=5001"]
