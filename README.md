@@ -2,7 +2,7 @@
 
 This server allows you to run [Snips NLU](https://github.com/snipsco/snips-nlu), an open source [natural language understanding (NLU)](https://www.jovo.tech/docs/nlu) engine, on your own premises.
 
-Using this server is recommended if you want to build [Jovo](https://www.jovo.tech) apps using the [Snips NLU integration](https://www.jovo.tech/marketplace/nlu-snips). It even features the ability to dynamically train the language model called [dynamic entities](#dynamic-entities).
+Using this server is recommended if you want to build [Jovo](https://www.jovo.tech) apps using the [Snips NLU integration](https://www.jovo.tech/marketplace/nlu-snips). It features [intent scoping](https://www.jovo.tech/marketplace/nlu-snips#intent-scoping) and even the ability to dynamically train the language model called [dynamic entities](#dynamic-entities).
 
 Learn more below:
 - [Setup](#setup)
@@ -33,7 +33,7 @@ You can build the image yourself and run it on port 5000:
 
 ```sh
 docker build -t snips-nlu-server .
-docker run -p 5000:5000 snips-nlu-server
+docker run -p 5001:5001 snips-nlu-server
 ```
 
 ### Manual Setup

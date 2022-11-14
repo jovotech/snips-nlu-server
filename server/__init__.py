@@ -115,7 +115,10 @@ def train_and_persist_engine(engine_path_portion: str = 'engine'):
 def parse_from_engine(engine_path: str) -> Any:
     engine: SnipsNLUEngine = SnipsNLUEngine.from_path(engine_path)
     request_json: Any = request.get_json()
-    result = engine.parse(request_json['text'])
+    try:
+        result = engine.parse(request_json['text'], request_json['intents'])
+    except:
+        result = engine.parse(request_json['text'])
     return result
 
 def get_query_parameter(key: str) -> str:
